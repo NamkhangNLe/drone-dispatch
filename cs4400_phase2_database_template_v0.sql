@@ -1,9 +1,9 @@
 -- CS4400: Introduction to Database Systems (Spring 2024)
 -- Phase II: Create Table & Insert Statements [v0] Monday, February 19, 2024 @ 12:00am EST
 
--- Team __
--- Team Member Name (GT username)
--- Team Member Name (GT username)
+-- Team 101
+-- Namkhang Le (903628325)
+-- Hsiang-Pin Ko (903637631)
 -- Team Member Name (GT username)
 -- Team Member Name (GT username)
 -- Team Member Name (GT username)
