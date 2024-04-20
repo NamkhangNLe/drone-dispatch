@@ -29,6 +29,23 @@
   height: 70px;
 }
 
+.cancel-button {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin: 70px 70px;
+  padding: 30px;
+  font-size: 20px;
+  text-align: center;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 150px; 
+  height: 70px;
+}
+
 .button:hover {
   background-color: #45a049;
 }
