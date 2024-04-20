@@ -6,9 +6,16 @@ function App() {
 
   return (
     <div className="App">
-      <div className="button-columns">
-        {buttons.map((label, index) => (
-          <button key={index} className={`button ${index % 2 === 0 ? 'column-1' : 'column-2'}`}>
+      <div className="button-column">
+        {buttons.slice(0, 3).map((label, index) => (
+          <button key={index} className="button">
+            {label}
+          </button>
+        ))}
+      </div>
+      <div className="button-column">
+        {buttons.slice(3).map((label, index) => (
+          <button key={index} className="button">
             {label}
           </button>
         ))}
