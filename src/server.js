@@ -7,6 +7,7 @@ const connection = mysql.createConnection({
   database: 'database'
 });
 
+const path = require('path');
 const app = express();
 const port = 5000;
 
