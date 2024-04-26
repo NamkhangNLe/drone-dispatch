@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+# Drone Delivery Database Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application is a GUI for managing a drone delivery service. It provides interfaces for managing orders, customers, drones, products, pilots, and views.
+
+## Features
+
+- **Orders**: View and manage all orders.
+- **Customers**: Keep track of all customers.
+- **Drones**: Monitor and control all drones in the fleet.
+- **Products**: Manage the products available for delivery.
+- **Pilots**: Keep track of all pilots.
+- **Views**: Customizable views for different aspects of the service.
 
 ## Available Scripts
 
