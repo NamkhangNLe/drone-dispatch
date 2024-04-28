@@ -2,9 +2,10 @@ const express = require('express');
 const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'user',
-  password: 'password',
-  database: 'database'
+  user: 'root',
+  password: '',
+  database: 'drone_dispatch',
+  port: 3306
 });
 
 const path = require('path');
@@ -44,4 +45,15 @@ app.get('/views', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
+});
+
+app.get('/db-check', (req, res) => {
+  connection.query('SELECT 1', (err, results) => {
+    if(err) {
+      console.error('Database connection error:', err);
+      res.status(500).send('Database connection error');
+    } else {
+      res.send('Database is connected');
+    }
+  });
 });
