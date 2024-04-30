@@ -18,9 +18,15 @@ function Customers() {
 
 function test() {
   console.log('max gets yummy food')
-  fetch('http://localhost:5000/customers')
+  fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({sql: 'select * from customers'}),
+  })
     .then(res => res.json()) // Parse the JSON from the response
-    .then(data => console.log(data)) // Log the data
+    .then(result => console.log(result)) // Log the data
     .catch(err => console.error(err)); // Log any errors
 }
 
@@ -30,7 +36,7 @@ function addCustomer() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name: 'New Customer' }),
+    body: JSON.stringify({ sql: 'New Customer' }),
   })
     .then(res => res.json())
     .then(data => console.log(data))
