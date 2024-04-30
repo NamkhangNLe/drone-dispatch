@@ -16,4 +16,18 @@ function Drones() {
   );
 }
 
+function removeDrone() {
+  fetch('http://localhost:5000/procedure', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'call remove_drone(?)',
+                           parameters: ['cjordan5']}),
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+}
+
 export default Drones;
