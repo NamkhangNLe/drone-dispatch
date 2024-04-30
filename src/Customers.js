@@ -23,6 +23,7 @@ function Customers() {
       <input type="text" id="birthdate" placeholder="YYYY-MM-DD"></input>
       <input type="text" id="rating" placeholder="Enter Rating"></input>
       <input type="text" id="credit" placeholder="Enter Credit"></input>
+      
       <button className="add-button button" onClick={() => addCustomer()}>Add Customer</button>
       <select className="select-dropdown" onChange={e => setUname(e.target.value)}>
         {customerData.map((customer, index) => (
