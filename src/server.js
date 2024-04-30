@@ -59,3 +59,22 @@ app.post('/', (req, res) => {
     };
   });
 });
+
+app.post('/procedure', (req, res) => {
+  // Access the data in req.body, save it to the database, etc.
+  // Send a response when done
+
+  console.log(req.body['sql'])
+  console.log(req.body['parameters'])
+  res.contentType('application/json');
+  connection.query(req.body['sql'], req.body['parameters'], function (err, result) {
+    if (result  == null) {
+      res.json({status: 'Success'})
+    } else {
+      result = JSON.parse(JSON.stringify(result))
+      if (err) throw err;
+      console.log(result);
+      res.json(result)
+    };
+  });
+});

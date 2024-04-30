@@ -9,7 +9,7 @@ function Customers() {
     <div>
       <h1>Customers Page</h1>
       <button className="max" onClick={() => test()}>max</button>
-      <button className="add-button button" onClick={() => console.log('Add Customer')}>Add Customer</button>
+      <button className="add-button button" onClick={() => addCustomer()}>Add Customer</button>
       <button className="cancel-button" onClick={() => console.log('Remove Customer')}>Remove Customer</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
     </div>
@@ -23,7 +23,7 @@ function test() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({sql: 'call remove_customer("cjordan5");'}),
+    body: JSON.stringify({sql: 'select * from customers'}),
   })
     .then(res => res.json()) // Parse the JSON from the response
     .then(result => console.log(result)) // Log the data
@@ -31,12 +31,13 @@ function test() {
 }
 
 function addCustomer() {
-  fetch('http://localhost:5000/customers', {
+  fetch('http://localhost:5000/procedure', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sql: 'New Customer' }),
+    body: JSON.stringify({ sql: 'call remove_customer(?)',
+                           parameters: ['cjordan5']}),
   })
     .then(res => res.json())
     .then(data => console.log(data))
