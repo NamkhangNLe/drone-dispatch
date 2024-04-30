@@ -53,3 +53,24 @@
 .button:hover {
   background-color: #45a049;
 }
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+}
+
+.select-dropdown {
+  width: 200px;
+  height: 40px;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}

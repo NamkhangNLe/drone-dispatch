@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 function Customers() {
   const navigate = useNavigate();
-
+ // <button className="max" onClick={() => test()}>max</button>
   return (
     <div>
       <h1>Customers Page</h1>
-      <button className="max" onClick={() => test()}>max</button>
+      
       <input type="text" id="username" placeholder="Enter Username"></input>
       <input type="text" id="first_name" placeholder="Enter First Name"></input>
       <input type="text" id="last_name" placeholder="Enter Last Name"></input>
@@ -52,13 +52,23 @@ function removeCustomer() {
 }
 
 function addCustomer() {
+  // Grab the inputs to store into the database.
+  const inputs = [];
+  inputs.push(document.getElementById("username").value);
+  inputs.push(document.getElementById("first_name").value);
+  inputs.push(document.getElementById("last_name").value);
+  inputs.push(document.getElementById("address").value);
+  inputs.push(document.getElementById("birthdate").value);
+  inputs.push(parseInt(document.getElementById("rating").value));
+  inputs.push(parseInt(document.getElementById("credit").value));
+  
   fetch('http://localhost:5000/procedure', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sql: 'call add_customer(?)',
-                           parameters: ['cjordan5']}),
+    body: JSON.stringify({ sql: 'call add_customer(?,?,?,?,?,?,?)',
+                           parameters: inputs}),
   })
     .then(res => res.json())
     .then(data => console.log(data))

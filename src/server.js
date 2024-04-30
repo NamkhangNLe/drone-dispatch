@@ -50,7 +50,8 @@ app.post('/', (req, res) => {
   res.contentType('application/json');
   connection.query(req.body['sql'], function (err, result) {
     if (result  == null) {
-      res.json({status: 'Success'})
+      console.log('empty result');
+      res.json({status: 'empty query result'})
     } else {
       result = JSON.parse(JSON.stringify(result))
       if (err) throw err;
@@ -69,7 +70,7 @@ app.post('/procedure', (req, res) => {
   res.contentType('application/json');
   connection.query(req.body['sql'], req.body['parameters'], function (err, result) {
     if (result  == null) {
-      res.json({status: 'Success'})
+      res.json({status: 'empty procedure result'})
     } else {
       result = JSON.parse(JSON.stringify(result))
       if (err) throw err;
