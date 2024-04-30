@@ -7,6 +7,15 @@ function Orders() {
   return (
     <div>
       <h1>Orders Page</h1>
+      <input type="text" id="orderID" placeholder="Enter Order ID"></input>
+      <input type="text" id="sold_on" placeholder="YYYY-MM-DD"></input>
+      <input type="text" id="purchased_by" placeholder="Enter Username"></input>
+      <input type="text" id="carrier_store" placeholder="Enter Store ID"></input>
+      <input type="text" id="carrier_tag" placeholder="Enter Drone Tag"></input>
+      <input type="text" id="barcode" placeholder="Enter Barcode"></input>
+      <input type="text" id="price" placeholder="Enter Price"></input>
+      <input type="text" id="quantity" placeholder="Enter Quantity"></input>
+
       <button className="add-button button" onClick={() => beginOrder()}>Begin Order</button>
       <button className="button" onClick={() => addOrderLine()}>Add Order Line</button>
       <button className="button" onClick={() => deliverOrder()}>Deliver Order</button>
@@ -19,6 +28,14 @@ function Orders() {
 function beginOrder() {
   // Grab the inputs to store into the database.
   const inputs = [];
+  inputs.push(document.getElementById("orderID").value);
+  inputs.push(document.getElementById("sold_on").value);
+  inputs.push(document.getElementById("purchased_by").value);
+  inputs.push(document.getElementById("carrier_store").value);
+  inputs.push(parseInt(document.getElementById("carrier_tag").value));
+  inputs.push(document.getElementById("barcode").value);
+  inputs.push(parseInt(document.getElementById("price").value));
+  inputs.push(parseInt(document.getElementById("quantity").value));
   
   fetch('http://localhost:5000/procedure', {
     method: 'POST',

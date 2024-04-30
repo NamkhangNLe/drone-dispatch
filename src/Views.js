@@ -5,12 +5,50 @@ import { useNavigate } from 'react-router-dom';
 function Views() {
   const navigate = useNavigate();
   const [orderData, setOrderData] = useState([]);
+  const [orders, setOrders] = useState([]);
   
   useEffect(() => {
     displayOrdersInProgress().then(result => setOrderData(result));
   }, []);
+
+  console.log(orderData);
   
-  document.querySelector("#myTable tbody").innerHTML = orderData.map(user => `<tr><td>${user['orderID']}</td><td>${user['cost']}</td><td>${user['num_products']}</td><td>${user['payload']}</td><td>${user['contents']}</td></tr>`).join('')
+  // document.querySelector("#myTable tbody").innerHTML = orderData.map(user => `<tr><td>${user['orderID']}</td><td>${user['cost']}</td><td>${user['num_products']}</td><td>${user['payload']}</td><td>${user['contents']}</td></tr>`).join('')
+  createTable(orderData);
+
+  function createTable(data) {
+    var x = document.createElement("TABLE");
+    x.setAttribute("id", "myTable");
+    document.body.appendChild(x);
+  
+    var y = document.createElement("TR");
+    y.setAttribute("id", "myTr");
+    document.getElementById("myTable").appendChild(y);
+  
+    var z = document.createElement("TD");
+    var t = document.createTextNode("orderID");
+    z.appendChild(t);
+    document.getElementById("myTr").appendChild(z);
+    t = document.createTextNode("cost");
+    z = document.createElement("TD");
+    z.appendChild(t);
+    document.getElementById("myTr").appendChild(z);
+
+    data.forEach((da) => {
+      var row = document.createElement("TR");
+      row.setAttribute("id", da['orderID']);
+      document.getElementById("myTable").appendChild(row);
+
+      var d = document.createElement("TD");
+      var text = document.createTextNode(da['orderID']);
+      var cost = document.createTextNode(da['cost']);
+      d.append(text)
+      document.getElementById(da['orderID']).appendChild(d);
+      d = document.createElement("TD");
+      d.append(cost);
+      document.getElementById(da['orderID']).appendChild(d);
+    });
+  }
 
   return (
     <div>
@@ -23,36 +61,21 @@ function Views() {
       <button className="button" onClick={() => console.log('Store Sales Overview')}>Store Sales Overview</button>
       <button className="button" onClick={() => displayOrdersInProgress()}>Orders In Progress</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
-
-    <h1 class="display-3">Orders in Progress</h1>
-    <table class="table table-dark table-striped" id="myTable">
-      <thead>
-        <tr>
-          <th scope="col">orderID</th>
-          <th scope="col">cost</th>
-          <th scope="col">num_products</th>
-          <th scope="col">payload</th>
-          <th scope="col">contents</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
+    </div>
   );
 }
 
 function displayOrdersInProgress () {
-  return fetch('http://localhost:5000/procedure', {
+  return fetch('http://localhost:5000/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sql: 'call orders_in_progress(?)',
-                           parameters: ['cjordan5']}),
+    body: JSON.stringify({ sql: 'select * from orders_in_progress'}),
   })
     .then(res => res.json())
     .catch(err => console.error(err));
 }
+
 
 export default Views;

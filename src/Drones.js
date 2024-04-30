@@ -20,8 +20,6 @@ function Drones() {
         ))}
       </select>
 
-      
-
       <input type="text" id="capacity" placeholder="Enter Capacity"></input>
       <input type="text" id="pilot" placeholder="Enter Pilot Username"></input>
       <input type="text" id="droneTag" placeholder="Enter Drone Tag"></input>
@@ -42,7 +40,7 @@ function getDroneInformation() {
     headers: {
       'Content-Type': 'application/json',
     },
-      body: JSON.stringify({ sql: 'select distinct storeID from drones'}),
+      body: JSON.stringify({ sql: 'select distinct storeID from stores'}),
   })
     .then(res => res.json())
     .catch(err => console.error(err));
