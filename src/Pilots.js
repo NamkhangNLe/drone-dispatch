@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Pilots() {
   const navigate = useNavigate();
+  
   return (
     <div>
       <h1>Pilots Page</h1>
