@@ -6,7 +6,7 @@ function Views() {
   const navigate = useNavigate();
   return (
     <div>
-      <h1>Drones Page</h1>
+      <h1>Views Page</h1>
       <button className="button" onClick={() => console.log('Role Distribution')}>Role Distribution</button>
       <button className="button" onClick={() => console.log('Customer Credit Check')}>Customer Credit Check</button>
       <button className="button" onClick={() => console.log('Drone Traffic Control')}>Drone Traffic Control</button>
