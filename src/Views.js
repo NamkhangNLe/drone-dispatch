@@ -9,6 +9,8 @@ function Views() {
   useEffect(() => {
     displayOrdersInProgress().then(result => setOrderData(result));
   }, []);
+  
+  document.querySelector("#myTable tbody").innerHTML = orderData.map(user => `<tr><td>${user['orderID']}</td><td>${user['cost']}</td><td>${user['num_products']}</td><td>${user['payload']}</td><td>${user['contents']}</td></tr>`).join('')
 
   return (
     <div>
@@ -21,7 +23,22 @@ function Views() {
       <button className="button" onClick={() => console.log('Store Sales Overview')}>Store Sales Overview</button>
       <button className="button" onClick={() => displayOrdersInProgress()}>Orders In Progress</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
-    </div>
+
+    <h1 class="display-3">Orders in Progress</h1>
+    <table class="table table-dark table-striped" id="myTable">
+      <thead>
+        <tr>
+          <th scope="col">orderID</th>
+          <th scope="col">cost</th>
+          <th scope="col">num_products</th>
+          <th scope="col">payload</th>
+          <th scope="col">contents</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
   );
 }
 
