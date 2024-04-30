@@ -49,9 +49,13 @@ app.post('/', (req, res) => {
   console.log(req.body['sql'])
   res.contentType('application/json');
   connection.query(req.body['sql'], function (err, result) {
-    result = JSON.parse(JSON.stringify(result))
-    if (err) throw err;
-    console.log(result);
-    res.json(result)
+    if (result  == null) {
+      res.json({status: 'Success'})
+    } else {
+      result = JSON.parse(JSON.stringify(result))
+      if (err) throw err;
+      console.log(result);
+      res.json(result)
+    };
   });
 });

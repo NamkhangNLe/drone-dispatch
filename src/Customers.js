@@ -23,7 +23,7 @@ function test() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({sql: 'select * from customers'}),
+    body: JSON.stringify({sql: 'call remove_customer("cjordan5");'}),
   })
     .then(res => res.json()) // Parse the JSON from the response
     .then(result => console.log(result)) // Log the data
