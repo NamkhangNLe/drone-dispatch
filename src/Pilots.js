@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
 function Pilots() {
   const navigate = useNavigate();
+  const [pilotData, setPilotData] = useState([]);
+  const [uname, setUname] = useState('');
+
+  useEffect(() => {
+    getPilotInformation().then(result => setPilotData(result));
+  }, []);
+
   return (
     <div>
       <h1>Pilots Page</h1>
@@ -20,10 +27,44 @@ function Pilots() {
       <input type="text" id="experience" placeholder="Enter Experience"></input>
 
       <button className="add-button button" onClick={() => addDronePilot()}>Add Drone Pilot</button>
-      <button className="cancel-button" onClick={() => removeDronePilot()}>Remove Drone Pilot</button>
+      <select className="select-dropdown" onChange={e => setUname(e.target.value)}>
+        {pilotData.map((pilot, index) => (
+          <option key={index} value={pilot.uname}>{pilot.uname}</option>
+        ))}
+      </select>
+      <button className="cancel-button" onClick={() => removePilot(uname)}>Remove Drone Pilot</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
     </div>
   );
+}
+
+function getPilotInformation() {
+  
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+      body: JSON.stringify({ sql: 'select distinct uname from drone_pilots'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function removePilot(uname) {
+  const inputs = [];
+  inputs.push(uname);
+  fetch('http://localhost:5000/procedure', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'call remove_drone_pilot(?)',
+                           parameters: inputs}),
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
 }
 
 function addDronePilot() {
@@ -54,18 +95,5 @@ function addDronePilot() {
     .catch(err => console.error(err));
 }
 
-function removeDronePilot() {
-  fetch('http://localhost:5000/procedure', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'call remove_drone_pilot(?)',
-                           parameters: ['cjordan5']}),
-  })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
-}
 
 export default Pilots;

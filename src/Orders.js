@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
 function Orders() {
   const navigate = useNavigate();
+  const [orderData, setOrderData] = useState([]);
+  const [orderID, setOrderID] = useState('');
+
+  useEffect(() => {
+    getOrderInformation().then(result => setOrderData(result));
+  }, []);
+
+
   return (
     <div>
       <h1>Orders Page</h1>
@@ -19,10 +27,44 @@ function Orders() {
       <button className="add-button button" onClick={() => beginOrder()}>Begin Order</button>
       <button className="button" onClick={() => addOrderLine()}>Add Order Line</button>
       <button className="button" onClick={() => deliverOrder()}>Deliver Order</button>
-      <button className="cancel-button" onClick={() => cancelOrder()}>Cancel Order</button>
+      <select className="select-dropdown" onChange={e => setOrderID(e.target.value)}>
+        {orderData.map((order, index) => (
+          <option key={index} value={order.orderID}>{order.orderID}</option>
+        ))}
+      </select>
+      <button className="cancel-button" onClick={() => cancelOrder(orderID)}>Cancel Order</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
     </div>
   );
+}
+
+function getOrderInformation() {
+  
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+      body: JSON.stringify({ sql: 'select distinct orderID from orders'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function cancelOrder(orderID) {
+  const inputs = [];
+  inputs.push(orderID);
+  fetch('http://localhost:5000/procedure', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'call cancel_order(?)',
+                           parameters: inputs}),
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
 }
 
 function beginOrder() {
@@ -78,20 +120,6 @@ function deliverOrder() {
     },
     body: JSON.stringify({ sql: 'call deliver_order(?)',
                            parameters: inputs}),
-  })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
-}
-
-function cancelOrder() {
-  fetch('http://localhost:5000/procedure', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'call cancel_order(?,?)',
-                           parameters: ['cjordan5','123']}),
   })
     .then(res => res.json())
     .then(data => console.log(data))

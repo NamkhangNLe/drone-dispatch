@@ -14,9 +14,13 @@ function Views() {
   console.log(orderData);
   
   // document.querySelector("#myTable tbody").innerHTML = orderData.map(user => `<tr><td>${user['orderID']}</td><td>${user['cost']}</td><td>${user['num_products']}</td><td>${user['payload']}</td><td>${user['contents']}</td></tr>`).join('')
-  createTable(orderData);
+  createOrderTable(orderData);
 
-  function createTable(data) {
+  function createCustomerCreditCheckTable(data) {
+    
+  }
+
+  function createOrderTable(data) {
     var x = document.createElement("TABLE");
     x.setAttribute("id", "myTable");
     document.body.appendChild(x);
@@ -65,6 +69,78 @@ function Views() {
   );
 }
 
+function displayRoleDistribution () {
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'select * from role_distribution'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function displayCustomerCreditCheck () {
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'select * from customer_credit_check'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function displayDroneTrafficControl () {
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'select * from drone_traffic_control'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function displayMostPopularProducts () {
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'select * from most_popular_products'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function displayDronePilotRoster () {
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'select * from drone_pilot_roster'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function displayStoreSalesOverview () {
+  return fetch('http://localhost:5000/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'select * from store_sales_overview'}),
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
 function displayOrdersInProgress () {
   return fetch('http://localhost:5000/', {
     method: 'POST',
@@ -76,6 +152,8 @@ function displayOrdersInProgress () {
     .then(res => res.json())
     .catch(err => console.error(err));
 }
+
+
 
 
 export default Views;
