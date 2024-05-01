@@ -26,7 +26,12 @@ function Orders() {
 
       <button className="add-button button" onClick={() => beginOrder()}>Begin Order</button>
       <button className="button" onClick={() => addOrderLine()}>Add Order Line</button>
-      <button className="button" onClick={() => deliverOrder()}>Deliver Order</button>
+      <select className="select-dropdown" onChange={e => setOrderID(e.target.value)}>
+        {orderData.map((order, index) => (
+          <option key={index} value={order.orderID}>{order.orderID}</option>
+        ))}
+      </select>
+      <button className="button" onClick={() => deliverOrder(orderID)}>Deliver Order</button>
       <select className="select-dropdown" onChange={e => setOrderID(e.target.value)}>
         {orderData.map((order, index) => (
           <option key={index} value={order.orderID}>{order.orderID}</option>
@@ -109,9 +114,9 @@ function addOrderLine() {
     .catch(err => console.error(err));
 }
 
-function deliverOrder() {
-  // Grab the inputs to store into the database.
+function deliverOrder(orderID) {
   const inputs = [];
+  inputs.push(orderID)
   
   fetch('http://localhost:5000/procedure', {
     method: 'POST',
