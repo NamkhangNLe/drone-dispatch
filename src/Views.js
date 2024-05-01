@@ -4,156 +4,91 @@ import { useNavigate } from 'react-router-dom';
 
 function Views() {
   const navigate = useNavigate();
-  const [orderData, setOrderData] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const [orders, setOrders] = useState([]);
   
-  useEffect(() => {
-    displayOrdersInProgress().then(result => setOrderData(result));
-  }, []);
-
-  console.log(orderData);
-  
-  // document.querySelector("#myTable tbody").innerHTML = orderData.map(user => `<tr><td>${user['orderID']}</td><td>${user['cost']}</td><td>${user['num_products']}</td><td>${user['payload']}</td><td>${user['contents']}</td></tr>`).join('')
-  createOrderTable(orderData);
-
-  function createCustomerCreditCheckTable(data) {
-    
-  }
-
-  function createOrderTable(data) {
-    var x = document.createElement("TABLE");
-    x.setAttribute("id", "myTable");
-    document.body.appendChild(x);
-  
-    var y = document.createElement("TR");
-    y.setAttribute("id", "myTr");
-    document.getElementById("myTable").appendChild(y);
-  
-    var z = document.createElement("TD");
-    var t = document.createTextNode("orderID");
-    z.appendChild(t);
-    document.getElementById("myTr").appendChild(z);
-    t = document.createTextNode("cost");
-    z = document.createElement("TD");
-    z.appendChild(t);
-    document.getElementById("myTr").appendChild(z);
-
-    data.forEach((da) => {
-      var row = document.createElement("TR");
-      row.setAttribute("id", da['orderID']);
-      document.getElementById("myTable").appendChild(row);
-
-      var d = document.createElement("TD");
-      var text = document.createTextNode(da['orderID']);
-      var cost = document.createTextNode(da['cost']);
-      d.append(text)
-      document.getElementById(da['orderID']).appendChild(d);
-      d = document.createElement("TD");
-      d.append(cost);
-      document.getElementById(da['orderID']).appendChild(d);
-    });
-  }
+  // useEffect(() => {
+  //   displayOrdersInProgress().then(result => setOrderData(result));
+  // }, []);
 
   return (
     <div>
       <h1>Views Page</h1>
-      <button className="button" onClick={() => console.log('Role Distribution')}>Role Distribution</button>
-      <button className="button" onClick={() => console.log('Customer Credit Check')}>Customer Credit Check</button>
-      <button className="button" onClick={() => console.log('Drone Traffic Control')}>Drone Traffic Control</button>
-      <button className="button" onClick={() => console.log('Most Popular Products')}>Most Popular Products</button>
-      <button className="button" onClick={() => console.log('Drone Pilot Roster')}>Drone Pilot Roster</button>
-      <button className="button" onClick={() => console.log('Store Sales Overview')}>Store Sales Overview</button>
-      <button className="button" onClick={() => displayOrdersInProgress()}>Orders In Progress</button>
+      <button className="button" onClick={() => displayRoleDistribution().then(result => setTableData(result)) }>Role Distribution</button>
+      <button className="button" onClick={() => displayCustomerCreditCheck().then(result => setTableData(result)) }>Customer Credit Check</button>
+      <button className="button" onClick={() => displayDroneTrafficControl().then(result => setTableData(result)) }>Drone Traffic Control</button>
+      <button className="button" onClick={() => displayMostPopularProducts().then(result => setTableData(result)) }>Most Popular Products</button>
+      <button className="button" onClick={() => displayDronePilotRoster().then(result =>setTableData(result)) }>Drone Pilot Roster</button>
+      <button className="button" onClick={() => displayStoreSalesOverview().then(result=>setTableData(result)) }>Store Sales Overview</button>
+      <button className="button" onClick={() => displayOrdersInProgress().then(result => setTableData(result)) }>Orders In Progress</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
+      {tableData && displayTable(tableData)}
     </div>
   );
 }
 
-function displayRoleDistribution () {
+function displayTable (data) {
+  console.log(data[0])
+  var keys = [];
+  for(var key in data[0]) keys.push(key);
+  
+  return  (<table>
+    <thead>
+      <tr>
+        {(keys.map((header, index) => (
+          <th> {header} </th>
+        )))}
+      </tr>
+    </thead>
+    <tbody>
+      {data.map((row, index) => (
+        <tr>
+          {keys.map((header, index) => (
+            <td> {row[header]} </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>)
+}
+function fetchData(sql) {
   return fetch('http://localhost:5000/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sql: 'select * from role_distribution'}),
+    body: JSON.stringify({ sql }),
   })
     .then(res => res.json())
     .catch(err => console.error(err));
 }
 
-function displayCustomerCreditCheck () {
-  return fetch('http://localhost:5000/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'select * from customer_credit_check'}),
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+function displayRoleDistribution() {
+  return fetchData('select * from role_distribution');
 }
 
-function displayDroneTrafficControl () {
-  return fetch('http://localhost:5000/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'select * from drone_traffic_control'}),
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+function displayCustomerCreditCheck() {
+  return fetchData('select * from customer_credit_check');
 }
 
-function displayMostPopularProducts () {
-  return fetch('http://localhost:5000/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'select * from most_popular_products'}),
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+function displayDroneTrafficControl() {
+  return fetchData('select * from drone_traffic_control');
 }
 
-function displayDronePilotRoster () {
-  return fetch('http://localhost:5000/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'select * from drone_pilot_roster'}),
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+function displayMostPopularProducts() {
+  return fetchData('select * from most_popular_products');
 }
 
-function displayStoreSalesOverview () {
-  return fetch('http://localhost:5000/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'select * from store_sales_overview'}),
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+function displayDronePilotRoster() {
+  return fetchData('select * from drone_pilot_roster');
 }
 
-function displayOrdersInProgress () {
-  return fetch('http://localhost:5000/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ sql: 'select * from orders_in_progress'}),
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+function displayStoreSalesOverview() {
+  return fetchData('select * from store_sales_overview');
 }
 
-
-
+function displayOrdersInProgress() {
+  return fetchData('select * from orders_in_progress');
+}
 
 export default Views;
