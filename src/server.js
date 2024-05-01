@@ -67,11 +67,14 @@ app.post('/procedure', (req, res) => {
 
   console.log(req.body['sql'])
   console.log(req.body['parameters'])
+  // console.log("I'm in the procedure")
   res.contentType('application/json');
   connection.query(req.body['sql'], req.body['parameters'], function (err, result) {
     if (result  == null) {
+      console.log('empty result');
       res.json({status: 'empty procedure result'})
     } else {
+      console.log("not empty result")
       result = JSON.parse(JSON.stringify(result))
       if (err) throw err;
       console.log(result);
@@ -79,3 +82,4 @@ app.post('/procedure', (req, res) => {
     };
   });
 });
+// begin_order('krg_219', '2024-05-25', 'awilson5', 'krg', 1, 'ss_2D4E6L', 2, 1);

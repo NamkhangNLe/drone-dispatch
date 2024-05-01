@@ -84,7 +84,7 @@ function beginOrder() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sql: 'call begin_order(?)',
+    body: JSON.stringify({ sql: 'call begin_order(?, ?, ?, ?, ?, ?, ?, ?)',
                            parameters: inputs}),
   })
     .then(res => res.json())
