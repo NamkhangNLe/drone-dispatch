@@ -26,10 +26,10 @@ function Orders() {
 
       <button className="add-button button" onClick={() => beginOrder()}>Begin Order</button>
 
-      <input type="text" id="orderID" placeholder="Enter Order ID"></input>
-      <input type="text" id="barcode" placeholder="Enter Barcode"></input>
-      <input type="text" id="price" placeholder="Enter Price"></input>
-      <input type="text" id="quantity" placeholder="Enter Quantity"></input>
+      <input type="text" id="orderID2" placeholder="Enter Order ID"></input>
+      <input type="text" id="barcode2" placeholder="Enter Barcode"></input>
+      <input type="text" id="price2" placeholder="Enter Price"></input>
+      <input type="text" id="quantity2" placeholder="Enter Quantity"></input>
       <button className="button" onClick={() => addOrderLine()}>Add Order Line</button>
       <select className="select-dropdown" onChange={e => setOrderID(e.target.value)}>
         {orderData.map((order, index) => (
@@ -105,17 +105,17 @@ function beginOrder() {
 function addOrderLine() {
   // Grab the inputs to store into the database.
   const inputs = [];
-  inputs.push(document.getElementById("orderID").value);
-  inputs.push(document.getElementById("barcode").value);
-  inputs.push(parseInt(document.getElementById("price").value));
-  inputs.push(parseInt(document.getElementById("quantity").value));
+  inputs.push(document.getElementById("orderID2").value);
+  inputs.push(document.getElementById("barcode2").value);
+  inputs.push(parseInt(document.getElementById("price2").value));
+  inputs.push(parseInt(document.getElementById("quantity2").value));
   
   fetch('http://localhost:5000/procedure', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sql: 'call add_order_line(?)',
+    body: JSON.stringify({ sql: 'call add_order_line(?, ?, ?, ?)',
                            parameters: inputs}),
   })
     .then(res => res.json())
