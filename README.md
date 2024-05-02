@@ -20,7 +20,7 @@ We used React for the frontend to create a dynamic and responsive user interface
 
 ## Work Distribution
 
-- **Namkhang Le**: Worked on the frontend managing routing between pages, as well as formatting user entries into sql within the backend.
+- **Namkhang Le**: Worked on the frontend managing routing between pages, as well as formatting user entries into sql after setting up the  backend connection.
 - **Patrick Kim**: Worked on the frontend, specifically the interfaces for managing drones and products.
 - **Jordan Miao**: Worked on setting up the database and writing SQL queries.
 - **Akash Misra** Worked on setting up views.
