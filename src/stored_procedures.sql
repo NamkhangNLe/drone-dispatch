@@ -376,7 +376,7 @@ delimiter ;
 
 -- begin order (DONE)
 delimiter // 
-create procedure begin_order
+reate procedure begin_order
 	(in ip_orderID varchar(40), in ip_sold_on date,
     in ip_purchased_by varchar(40), in ip_carrier_store varchar(40),
     in ip_carrier_tag integer, in ip_barcode varchar(40),
@@ -387,17 +387,16 @@ sp_main: begin
     and ip_orderID not in (select orderID from orders)
     and (ip_carrier_tag, ip_carrier_store) in (select droneTag, storeID from drones)
     and ip_barcode in (select barcode from products) then
-        
+		
         if ip_price >= 0 and ip_quantity > 0 then
-            
-            if (ip_price * ip_quantity) + (select sum(price * quantity) from order_lines where orderID in (select orderID from orders where purchased_by = ip_purchased_by)) <=
-               (select credit from customers where uname = ip_purchased_by)
+
+            if (ip_price * ip_quantity) <= (select credit from customers where uname = ip_purchased_by)
             and ip_quantity * (select weight from products where barcode = ip_barcode) <=
-                (select capacity from drones where droneTag = ip_carrier_tag and storeID = ip_carrier_store) then
-                
+				(select capacity from drones where droneTag = ip_carrier_tag and storeID = ip_carrier_store) then
+
                 insert into orders values (ip_orderID, ip_sold_on, ip_purchased_by, ip_carrier_store, ip_carrier_tag);
                 insert into order_lines values (ip_orderID, ip_barcode, ip_price, ip_quantity);
-            end if;
+			end if;
         end if;
     end if;
 end //
