@@ -25,6 +25,11 @@ function Orders() {
       <input type="text" id="quantity" placeholder="Enter Quantity"></input>
 
       <button className="add-button button" onClick={() => beginOrder()}>Begin Order</button>
+
+      <input type="text" id="orderID" placeholder="Enter Order ID"></input>
+      <input type="text" id="barcode" placeholder="Enter Barcode"></input>
+      <input type="text" id="price" placeholder="Enter Price"></input>
+      <input type="text" id="quantity" placeholder="Enter Quantity"></input>
       <button className="button" onClick={() => addOrderLine()}>Add Order Line</button>
       <select className="select-dropdown" onChange={e => setOrderID(e.target.value)}>
         {orderData.map((order, index) => (
@@ -100,6 +105,10 @@ function beginOrder() {
 function addOrderLine() {
   // Grab the inputs to store into the database.
   const inputs = [];
+  inputs.push(document.getElementById("orderID").value);
+  inputs.push(document.getElementById("barcode").value);
+  inputs.push(parseInt(document.getElementById("price").value));
+  inputs.push(parseInt(document.getElementById("quantity").value));
   
   fetch('http://localhost:5000/procedure', {
     method: 'POST',
