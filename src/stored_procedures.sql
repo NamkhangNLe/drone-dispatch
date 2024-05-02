@@ -376,7 +376,7 @@ delimiter ;
 
 -- begin order (DONE)
 delimiter // 
-reate procedure begin_order
+create procedure begin_order
 	(in ip_orderID varchar(40), in ip_sold_on date,
     in ip_purchased_by varchar(40), in ip_carrier_store varchar(40),
     in ip_carrier_tag integer, in ip_barcode varchar(40),
