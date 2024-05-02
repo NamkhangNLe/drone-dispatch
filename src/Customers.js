@@ -25,11 +25,23 @@ function Customers() {
       <input type="text" id="credit" placeholder="Enter Credit"></input>
       
       <button className="add-button button" onClick={() => addCustomer()}>Add Customer</button>
+
+      
       <select className="select-dropdown" onChange={e => setUname(e.target.value)}>
         {customerData.map((customer, index) => (
           <option key={index} value={customer.uname}>{customer.uname}</option>
         ))}
       </select>
+      <input type="text" id="credit2" placeholder="Enter Credit"></input>
+      <button className="button" onClick={() => increaseCustomerCredits(uname, parseInt(document.getElementById("credit2").value))}>Increase Customer Credits</button>
+      
+      
+      <select className="select-dropdown" onChange={e => setUname(e.target.value)}>
+        {customerData.map((customer, index) => (
+          <option key={index} value={customer.uname}>{customer.uname}</option>
+        ))}
+      </select>
+      
       <button className="cancel-button" onClick={() => removeCustomer(uname)}>Remove Customer</button>
       <button className="back-button" onClick={() => navigate(-1)}>Go Back</button>
     </div>
@@ -46,6 +58,24 @@ function getCustomerInformation() {
       body: JSON.stringify({ sql: 'select distinct uname from customers'}),
   })
     .then(res => res.json())
+    .catch(err => console.error(err));
+}
+
+function increaseCustomerCredits(uname, credit) {
+  const inputs = [];
+  inputs.push(uname);
+  inputs.push(credit);
+  
+  fetch('http://localhost:5000/procedure', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql: 'call increase_customer_credits(?,?)',
+                           parameters: inputs}),
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
     .catch(err => console.error(err));
 }
 
