@@ -326,9 +326,12 @@ sp_main: begin
     select credit into customer_credit from customers where uname = ip_uname;
     
     # Increase the credit appropriately.
-    if (customer_credit + ip_money) > 0 then
-		update customers set credit = (customer_credit + ip_money) where uname = ip_uname;
-	end if;
+    if ip_money < 0
+        then leave sp_main;
+    end if;
+
+    update customers set credit = credit + ip_money
+    where uname = ip_uname;
 end //
 delimiter ;
 
@@ -384,16 +387,17 @@ sp_main: begin
     and ip_orderID not in (select orderID from orders)
     and (ip_carrier_tag, ip_carrier_store) in (select droneTag, storeID from drones)
     and ip_barcode in (select barcode from products) then
-		
+        
         if ip_price >= 0 and ip_quantity > 0 then
-			
-            if (ip_price * ip_quantity) <= (select credit from customers where uname = ip_purchased_by)
+            
+            if (ip_price * ip_quantity) + (select sum(price * quantity) from order_lines where orderID in (select orderID from orders where purchased_by = ip_purchased_by)) <=
+               (select credit from customers where uname = ip_purchased_by)
             and ip_quantity * (select weight from products where barcode = ip_barcode) <=
-				(select capacity from drones where droneTag = ip_carrier_tag and storeID = ip_carrier_store) then
+                (select capacity from drones where droneTag = ip_carrier_tag and storeID = ip_carrier_store) then
                 
                 insert into orders values (ip_orderID, ip_sold_on, ip_purchased_by, ip_carrier_store, ip_carrier_tag);
                 insert into order_lines values (ip_orderID, ip_barcode, ip_price, ip_quantity);
-			end if;
+            end if;
         end if;
     end if;
 end //
